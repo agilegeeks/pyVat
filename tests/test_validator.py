@@ -218,6 +218,34 @@ class TestValidator(unittest.TestCase):
         validator = Validator('ESB30034573')
         self.assertTrue(validator.validate())
 
+    def test_fi(self):
+        validator = Validator('fi09853608')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'FI')
+
+        validator = Validator('FI09853607')
+        self.assertFalse(validator.validate())
+
+    def test_fr(self):
+        # old style
+        validator = Validator('FR00300076965')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'FR')
+        validator = Validator('FR06300076967')
+        self.assertTrue(validator.validate())
+        validator = Validator('FR46441049376')
+        self.assertTrue(validator.validate())
+        validator = Validator('Fr28316607779')
+        self.assertTrue(validator.validate())
+
+        validator = Validator('FR00300076964')
+        self.assertFalse(validator.validate())
+
+        #  new style
+        #validator = Validator('FR02300076965')
+        #self.assertTrue(validator.validate())
+
+
 if __name__ == '__main__':
     unittest.main()
 

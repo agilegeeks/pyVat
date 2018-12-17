@@ -32,7 +32,7 @@ VAT_NUMBER_REGEXPS = {
     'EE': re.compile(r'^\d{9}$'),
     'ES': re.compile(r'^[\da-z]\d{7}[\da-z]$', re.IGNORECASE),
     'FI': re.compile(r'^\d{8}$'),
-    'FR': re.compile(r'^[\da-hj-np-z]{2}\d{9}$', re.IGNORECASE),
+    'FR': re.compile(r'^[\da-z]{2}\d{9}$', re.IGNORECASE),
     'GB': re.compile(r'^((\d{9})|(\d{12})|(GD\d{3})|(HA\d{3}))$',
                      re.IGNORECASE),
     'GR': re.compile(r'^\d{9}$'),
