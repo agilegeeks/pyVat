@@ -1,4 +1,20 @@
-#from pyVat.validators.ro import Validator
+# Copyright 2018 Agile Geeks
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+# and associated documentation files (the "Software"), to deal in the Software without restriction,
+# including without limitation the rights to use, copy, modify, merge, publish, distribute,
+# sublicense, and/or sell copies of the Software, and to permit persons to whom the Software
+# is furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in all copies or substantial
+# portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+# LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+# IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+# WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+# OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 import unittest
 
 from pyVat.api import Validator
@@ -37,6 +53,9 @@ class TestValidator(unittest.TestCase):
         validator = Validator('BE0776091950')
         self.assertFalse(validator.validate())
 
+        validator = Validator('BE0842411247')
+        self.assertTrue(validator.validate())
+
     def test_bg(self):
 
         # test legal entity
@@ -65,6 +84,9 @@ class TestValidator(unittest.TestCase):
         self.assertTrue(validator.validate())
         self.assertEqual(validator.country_code, 'BG')
         self.assertEqual(validator.vat_number, '0000100153')
+
+        validator = Validator('BG202618588')
+        self.assertTrue(validator.validate())
 
     def test_cy(self):
         validator = Validator('CY00532445O') # the last char is O from oranges
@@ -116,15 +138,23 @@ class TestValidator(unittest.TestCase):
         validator = Validator('CZ7103192744')
         self.assertFalse(validator.validate())
 
+        validator = Validator('CZ26159708')
+        self.assertTrue(validator.validate())
+
     def test_de(self):
         validator = Validator('DE111111125')
         self.assertTrue(validator.validate())
         self.assertEqual(validator.country_code, 'DE')
         self.assertEqual(validator.vat_number, '111111125')
+        validator = Validator('DE124718735')
+        self.assertTrue(validator.validate())
+        validator = Validator('DE180295363')
+        self.assertTrue(validator.validate())
+        validator = Validator('DE123475223')
+        self.assertTrue(validator.validate())
 
         validator = Validator('DE111111122')
         self.assertFalse(validator.validate())
-
 
     def test_dk(self):
         validator = Validator('DK88146328')
@@ -154,6 +184,39 @@ class TestValidator(unittest.TestCase):
 
         validator = Validator('EL040127798')
         self.assertFalse(validator.validate())
+
+        validator = Validator('EL999863881')
+        self.assertTrue(validator.validate())
+
+    def test_es(self):
+        # Juridical entities other than national ones
+        validator = Validator('esa0011012B')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'ES')
+        self.assertEqual(validator.vat_number, 'A0011012B')
+        validator = Validator('ESA0011012B')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'ES')
+        self.assertEqual(validator.vat_number, 'A0011012B')
+        validator = Validator('ESA0011012B', 'ES')
+        self.assertTrue(validator.validate())
+
+        validator = Validator('ESA0011011B')
+        self.assertFalse(validator.validate())
+
+        # Physical persons
+        validator = Validator('ESZ3964521D')
+        self.assertTrue(validator.validate())
+        validator = Validator('ESM3964521F')
+        self.assertTrue(validator.validate())
+
+        # National juridical entities
+        validator = Validator('ESB84968312')
+        self.assertTrue(validator.validate())
+        validator = Validator('ESB50860162')
+        self.assertTrue(validator.validate())
+        validator = Validator('ESB30034573')
+        self.assertTrue(validator.validate())
 
 if __name__ == '__main__':
     unittest.main()
