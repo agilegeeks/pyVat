@@ -14,13 +14,16 @@
 # IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 # WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 # OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
+from __future__ import (
+    unicode_literals,
+    print_function,
+    division
+)
 import re
 import math
 import calendar
 import datetime
 from .generic import GenericValidator
-
 
 class Validator(GenericValidator):
     """
@@ -38,7 +41,7 @@ class Validator(GenericValidator):
 
         # legal entities
         if len(vat_number) == 8:
-            if vat_number[0] == '9':
+            if vat_number[0] == str('9'):
                 return False
             checknum = int (vat_number[7])
             a1 = self.sum_weights(list(range(8,1,-1)), vat_number[:8])
@@ -54,7 +57,7 @@ class Validator(GenericValidator):
         if len(vat_number) == 9:
 
             # special cases
-            if vat_number[0] == '6':
+            if vat_number[0] == str('6'):
                 checknum = int(vat_number[8])
                 a1 = self.sum_weights(list(range(8, 1, -1)), vat_number[1:8])
                 if a1 % 11 == 0:
@@ -87,7 +90,7 @@ class Validator(GenericValidator):
 
                 if monthval>12:
                     monthval = monthval - 50
-                num_days_month = calendar.monthrange( int('19'.join(vat_number[:2])), monthval)[1]
+                num_days_month = calendar.monthrange( int(str('19').join(vat_number[:2])), monthval)[1]
 
                 daysval = int(vat_number[4:6])
                 if daysval<1 or daysval>num_days_month:
@@ -111,9 +114,9 @@ class Validator(GenericValidator):
                     and monthval not in range(51, 63) and monthval not in range(71, 83):
                 return False
 
-            year_prefix = '19'
+            year_prefix = str('19')
             if yearval<13:
-                year_prefix = '20'
+                year_prefix = str('20')
             num_days_month = calendar.monthrange(int(year_prefix.join(vat_number[:2])), monthval)[1]
             daysval = int(vat_number[4:6])
             if daysval < 1 or daysval > num_days_month:

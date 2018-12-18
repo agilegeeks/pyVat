@@ -15,6 +15,11 @@
 # WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 # OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+from __future__ import (
+    unicode_literals,
+    print_function,
+    division
+)
 import re
 from .generic import GenericValidator
 
@@ -23,6 +28,7 @@ class Validator(GenericValidator):
     """
     For rules see /docs/VIES-VAT Validation Routines-v15.0.doc
     """
+
     def __init__(self):
         self.regexp = re.compile(r'^\d{8}$')
 
@@ -32,10 +38,8 @@ class Validator(GenericValidator):
 
         vat_number = str(vat_number)
 
-
-        if vat_number[0] == '0':
+        if vat_number[0] == str('0'):
             return False
-
 
         r = self.sum_weights([2, 7, 6, 5, 4, 3, 2, 1], vat_number)
         if r % 11 == 0:

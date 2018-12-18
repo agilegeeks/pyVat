@@ -21,6 +21,7 @@ from __future__ import (
     division
 )
 import re
+import math
 from .generic import GenericValidator
 
 
@@ -29,7 +30,7 @@ class Validator(GenericValidator):
     For rules see /docs/VIES-VAT Validation Routines-v15.0.doc
     """
     def __init__(self):
-        self.regexp = re.compile(r'^\d{8}$')
+        self.regexp = re.compile(r'^((\d{9})|(\d{12})|(GD\d{3})|(HA\d{3}))$', re.IGNORECASE)
 
     def validate(self, vat_number):
         if super(Validator, self).validate(vat_number) is False:
@@ -37,13 +38,37 @@ class Validator(GenericValidator):
 
         vat_number = str(vat_number)
 
-        checknum = int(vat_number[7])
-
-        r = 11 - self.sum_weights([7,9,10,5,8,4,2], vat_number) % 11
-        if r == 0:
-            return False
-        elif r == 11:
-            if checknum != 0:
+        # Format 1
+        if len(vat_number) == 5:
+            ranges = {
+                'GD': range(500),
+                'HA': range(500,1000),
+            }
+            if int(vat_number[2:]) not in ranges[ vat_number[:2] ]:
                 return False
-        else:
-            return checknum == r
+            return True
+
+        # Format 2
+        c89 = int(vat_number[7:9])
+        r = self.sum_weights(list(range(8, 1, -1)), vat_number[:7]) + c89
+        r1 = r % 97
+        r2 = (r + 55) % 97
+        if (r1 * r2) != 0 or (r1 + r2) == 0:
+            return False
+        if r1 == 0:
+            for rng in [range(100000, 1000000),
+                            range(9490001, 9700001),
+                            range(9990001, 10000000)]:
+                if r1 in rng:
+                    return False
+
+        if r2 == 0:
+            if r1 in range(1, 1000001):
+                return False
+
+        if len(vat_number) == 12:
+            if int(vat_number[9:]) == 0:
+                return False
+
+        return True
+

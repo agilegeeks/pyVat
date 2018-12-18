@@ -15,6 +15,11 @@
 # WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 # OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+from __future__ import (
+    unicode_literals,
+    print_function,
+    division
+)
 import re
 from .generic import GenericValidator
 
@@ -34,7 +39,7 @@ class Validator(GenericValidator):
         vat_number = str(vat_number)
         if int(vat_number[0]) not in [0, 1, 3, 4, 5, 9]:
             return False
-        if vat_number[:2] == '12':
+        if vat_number[:2] == str('12'):
             return False
 
         odd_digit_mapping = {

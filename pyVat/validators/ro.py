@@ -15,6 +15,16 @@
 # WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 # OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+from __future__ import (
+    unicode_literals,
+    print_function,
+    division
+)
+from __future__ import (
+    unicode_literals,
+    print_function,
+    division
+)
 import re
 from .generic import GenericValidator
 
@@ -33,7 +43,7 @@ class Validator(GenericValidator):
 
         vat_number = str(vat_number)
 
-        vat_number = vat_number.rjust(10,'0')
+        vat_number = vat_number.rjust(10,str('0'))
         checksum = int (vat_number[9])
         weights = [7, 5, 3, 2, 1, 7, 5, 3, 2]
         checkval = self.sum_weights(weights, vat_number)

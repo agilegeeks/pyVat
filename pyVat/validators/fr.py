@@ -15,6 +15,11 @@
 # WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 # OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+from __future__ import (
+    unicode_literals,
+    print_function,
+    division
+)
 import re
 import sys
 from .generic import GenericValidator
@@ -25,7 +30,7 @@ class Validator(GenericValidator):
     """
     For rules see /docs/VIES-VAT Validation Routines-v15.0.doc
     """
-    check_caracter_mapping = {
+    ccm = {
         0: '0',
         1: '1',
         2: '2',
@@ -83,14 +88,25 @@ class Validator(GenericValidator):
             checkval = int(vat_number[2:] + '12') % 97
             return int(vat_number[:2]) == checkval
         else:
+            if PY_3_OR_HIGHER:
+                inv_ccm = {v: k for k, v in Validator.ccm.items()}
+            else:
+                inv_ccm = {v: k for k, v in Validator.ccm.iteritems()}
+
+            s1 = inv_ccm[vat_number[0]]
+            s2 = inv_ccm[vat_number[1]]
+
             try:
                 c1 = int(vat_number[0])
             except:
-                c1_is_numeric = False
+                s = s1 * 34 + s2 - 100
             else:
-                c1_is_numeric = True
+                s = s1 * 24 + s2 - 10
 
-            inv_ccm = 
+            p = s / 11 + 1
+            r1 = s % 11
+            r2 = int(vat_number[2:]) % 11
 
-            #if c1_is_numeric:
-                # c2 must be numeric as otherwise would have been caught in old style
+            return r1 == r2
+
+
