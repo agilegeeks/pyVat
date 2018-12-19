@@ -29,65 +29,54 @@ class Validator(GenericValidator):
     For rules see /docs/VIES-VAT Validation Routines-v15.0.doc
     """
 
+    check_char_mapping = {
+        0: 'W',
+        1: 'A',
+        2: 'B',
+        3: 'C',
+        4: 'D',
+        5: 'E',
+        6: 'F',
+        7: 'G',
+        8: 'H',
+        9: 'I',
+        10: 'J',
+        11: 'K',
+        12: 'L',
+        13: 'M',
+        14: 'N',
+        15: 'O',
+        16: 'P',
+        17: 'Q',
+        18: 'R',
+        19: 'S',
+        20: 'T',
+        21: 'U',
+        22: 'V'
+    }
+
     def __init__(self):
-        self.regexp = re.compile(r'^\d{9,10}$')
+        self.regexp = re.compile(r'^((\d{7}[a-z])|(\d[a-z\+\*]\d{5}[a-z]))$', re.IGNORECASE)
 
     def validate(self, vat_number):
         if super(Validator, self).validate(vat_number) is False:
             return False
 
         vat_number = str(vat_number)
+        checknum = vat_number[7]
 
-        # if is legal entity
-        if (len(vat_number)==9):
-            checknum = int(vat_number[8])
-            a1 = self.sum_weights(list(range(1,9)), vat_number[:8])
-            r1 = a1 % 11
-
-            if r1 == 10:
-                a2 = self.sum_weights(list(range(3,11)), vat_number[:8])
-                r2 = a2 % 11
-                if r2 == 10:
-                    r = 0
-                else:
-                    r = r2
-            else:
-                r = r1
-
-            return checknum == r
-
-        # physical person
-        checknum = int(vat_number[9])
-        weights = [2, 4, 8, 5, 10, 9, 7, 3, 6]
-        a1 = self.sum_weights(weights, vat_number[:9])
-        r1 = a1 % 11
-        if r1 == 10:
-            r = 0
+        #check for old style - second char sould be a letter
+        try:
+            int(vat_number[1])
+        except:
+            old_style = True
         else:
-            r = r1
-        if checknum == r:
-            return True
+            old_style = False
 
-        # foreigners
-        checknum = int(vat_number[9])
-        weights = [21, 19, 17, 13, 11, 9, 7, 3, 1]
-        a1 = self.sum_weights(weights, vat_number[:9])
-        r = a1 % 10
-        if checknum == r:
-            return True
-
-        # others
-        checknum = int(vat_number[9])
-        weights = [4, 3, 2, 7, 6, 5, 4, 3, 2]
-        a1 = self.sum_weights(weights, vat_number[:9])
-        r1 = 11 - a1 % 11
-        if r1 == 11:
-            r = 0
-        elif r1 == 10:
-            return False
+        if old_style:
+            n = '0' + vat_number[2:7] + vat_number[0]
+            r = self.sum_weights(list(range(8,1,-1)), n) % 23
         else:
-            r = r1
-        if checknum == r:
-            return True
+            r = r = self.sum_weights(list(range(8,1,-1)), vat_number) % 23
 
-        return False
+        return checknum == Validator.check_char_mapping[r]

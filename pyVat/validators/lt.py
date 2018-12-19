@@ -30,7 +30,7 @@ class Validator(GenericValidator):
     """
 
     def __init__(self):
-        self.regexp = re.compile(r'^\d{9,10}$')
+        self.regexp = re.compile(r'^((\d{9})|(\d{12}))$')
 
     def validate(self, vat_number):
         if super(Validator, self).validate(vat_number) is False:
@@ -38,56 +38,36 @@ class Validator(GenericValidator):
 
         vat_number = str(vat_number)
 
-        # if is legal entity
-        if (len(vat_number)==9):
+        # Legal entities
+        if len(vat_number) == 9:
             checknum = int(vat_number[8])
-            a1 = self.sum_weights(list(range(1,9)), vat_number[:8])
-            r1 = a1 % 11
-
-            if r1 == 10:
-                a2 = self.sum_weights(list(range(3,11)), vat_number[:8])
-                r2 = a2 % 11
-                if r2 == 10:
-                    r = 0
-                else:
-                    r = r2
+            if int(vat_number[7]) != 1:
+                return False
+            r1 = self.sum_weights(list(range(1,9)), vat_number) % 11
+            if r1 != 10:
+                checkval = r1
             else:
-                r = r1
-
-            return checknum == r
-
-        # physical person
-        checknum = int(vat_number[9])
-        weights = [2, 4, 8, 5, 10, 9, 7, 3, 6]
-        a1 = self.sum_weights(weights, vat_number[:9])
-        r1 = a1 % 11
-        if r1 == 10:
-            r = 0
+                rng = list(range(3,10)) + [1]
+                r2 = self.sum_weights(rng, vat_number) % 11
+                if r2 == 10:
+                    checkval = 0
+                else:
+                    checkval = r2
         else:
-            r = r1
-        if checknum == r:
-            return True
+            # Temporarily registered taxpayers
+            checknum = int(vat_number[11])
+            if int(vat_number[10]) != 1:
+                return False
 
-        # foreigners
-        checknum = int(vat_number[9])
-        weights = [21, 19, 17, 13, 11, 9, 7, 3, 1]
-        a1 = self.sum_weights(weights, vat_number[:9])
-        r = a1 % 10
-        if checknum == r:
-            return True
-
-        # others
-        checknum = int(vat_number[9])
-        weights = [4, 3, 2, 7, 6, 5, 4, 3, 2]
-        a1 = self.sum_weights(weights, vat_number[:9])
-        r1 = 11 - a1 % 11
-        if r1 == 11:
-            r = 0
-        elif r1 == 10:
-            return False
-        else:
-            r = r1
-        if checknum == r:
-            return True
-
-        return False
+            rng = list(range(1,10) + range(1,3))
+            r1 = self.sum_weights(rng, vat_number) % 11
+            if r1 != 10:
+                checkval = r1
+            else:
+                rng = list(range(3, 10) + range(1,5))
+                r2 = self.sum_weights(rng, vat_number) % 11
+                if r2 == 10:
+                    checkval = 0
+                else:
+                    checkval = r2
+        return checknum == checkval

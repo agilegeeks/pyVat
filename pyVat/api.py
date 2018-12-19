@@ -134,5 +134,3 @@ class Validator(object):
         validator_klass = load_cc_validator(self.country_code.lower())
         validator = validator_klass()
         return validator.validate(str(self.vat_number))
-
-

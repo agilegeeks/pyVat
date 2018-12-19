@@ -71,4 +71,3 @@ class Validator(GenericValidator):
                 return False
 
         return True
-

@@ -265,12 +265,39 @@ class TestValidator(unittest.TestCase):
         validator = Validator('GB434031494')
         self.assertTrue(validator.validate())
 
+
+    def test_ie(self):
+        # old style format
+        validator = Validator('IE8Z49289F')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'IE')
+        validator = Validator('IE26287395')
+        self.assertFalse(validator.validate())
+
+        # new style
+        validator = Validator('IE3628739L')
+        self.assertTrue(validator.validate())
+
+    def test_it(self):
+        validator = Validator('IT00000010215')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'IT')
+        validator = Validator('IT00000017775')
+        self.assertFalse(validator.validate())
+
+    def test_lt(self):
+        #juridical entities
+        validator = Validator('LT213179412')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'LT')
+        validator = Validator('LT213179422')
+        self.assertFalse(validator.validate())
+
+        # Temporarily registered taxpayers
+        validator = Validator('LT290061371314')
+        self.assertTrue(validator.validate())
+        validator = Validator('LT290061371324')
+        self.assertFalse(validator.validate())
+
 if __name__ == '__main__':
     unittest.main()
-
-#
-#
-#
-# validator = Validator()
-#
-# print (validator.validate(36804251))
