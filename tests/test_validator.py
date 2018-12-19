@@ -389,5 +389,6 @@ class TestValidator(unittest.TestCase):
         validator = Validator('SK0407062531')
         self.assertFalse(validator.validate())
 
-if __name__ == '__main__':
-    unittest.main()
+
+suite = unittest.TestLoader().loadTestsFromTestCase(TestValidator)
+unittest.TextTestRunner(verbosity=2).run(suite)
