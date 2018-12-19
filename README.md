@@ -1,6 +1,6 @@
 # A library for checking on European VAT formats
 
-[![Build Status](https://travis-ci.com/agilegeeks/pyVat.svg?branch=master)](https://travis-ci.com/agilegeeks/pyVat)
+[![Build Status](https://api.travis-ci.com/agilegeeks/pyVat.svg?branch=master)](https://travis-ci.com/agilegeeks/pyVat)
 
 pyVat is a complete library that validates vat number formats in EU member countries. The algorithms used are described in /doc/VIES-VAT Validation Routines-v15.0.doc
 
