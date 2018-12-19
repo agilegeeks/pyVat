@@ -41,10 +41,10 @@ class Validator(GenericValidator):
         if vat_number[:2] != str('10'):
             return False
 
-        checknum = int(vat_number[8])
+        checksum = int(vat_number[8])
 
         a1 = self.sum_weights([3, 7, 1, 3, 7, 1, 3, 7], vat_number)
         a2 = math.ceil(a1 / 10) * 10
         c9 = a2 - a1
 
-        return checknum == c9
+        return checksum == c9

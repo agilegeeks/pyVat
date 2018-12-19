@@ -43,6 +43,9 @@ class Validator(GenericValidator):
 
         vat_number = str(vat_number)
 
+        if vat_number[0] == '0':
+            return False
+
         vat_number = vat_number.rjust(10,str('0'))
         checksum = int (vat_number[9])
         weights = [7, 5, 3, 2, 1, 7, 5, 3, 2]

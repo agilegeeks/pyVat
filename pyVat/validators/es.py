@@ -37,7 +37,7 @@ class Validator(GenericValidator):
             return False
 
         vat_number = str(vat_number)
-        checknum = vat_number[8].upper()
+        checksum = vat_number[8].upper()
 
         try:
             int( vat_number[8] )
@@ -83,7 +83,7 @@ class Validator(GenericValidator):
                 9: 'I',
                 10: 'J'
             }
-            if checknum == last_digit_mapping[r]:
+            if checksum == last_digit_mapping[r]:
                 return True
 
         # # Physical persons
@@ -132,11 +132,11 @@ class Validator(GenericValidator):
                     22: 'K',
                     23: 'E'
                 }
-                if checknum == last_digit_mapping[r]:
+                if checksum == last_digit_mapping[r]:
                     return True
 
         if c9_is_number:
-            checknum = int(vat_number[8])
+            checksum = int(vat_number[8])
             s1 = int(vat_number[2]) + int(vat_number[4]) + int(vat_number[6])
             s2 = 0
             for i in range(1, 8, 2):
@@ -144,7 +144,7 @@ class Validator(GenericValidator):
                 s2 = s2 + int(digit / 5) + (2 * digit) % 10
             r = 10 - (s1 + s2) % 10
 
-            return checknum == (r % 10)
+            return checksum == (r % 10)
 
         return False
 

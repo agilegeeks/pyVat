@@ -37,7 +37,7 @@ class Validator(GenericValidator):
 
         vat_number = str(vat_number)
 
-        checknum = int (vat_number[8])
+        checksum = int (vat_number[8])
 
         r = 0
         for i in range(3,8,2):
@@ -50,4 +50,4 @@ class Validator(GenericValidator):
 
         c9 = (10 - (r+c)%10) % 10
 
-        return checknum == c9
+        return checksum == c9

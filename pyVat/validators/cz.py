@@ -43,7 +43,7 @@ class Validator(GenericValidator):
         if len(vat_number) == 8:
             if vat_number[0] == str('9'):
                 return False
-            checknum = int (vat_number[7])
+            checksum = int (vat_number[7])
             a1 = self.sum_weights(list(range(8,1,-1)), vat_number[:8])
             if a1 % 11 == 0:
                 a2 = a1 + 11
@@ -51,14 +51,14 @@ class Validator(GenericValidator):
                 a2 = math.ceil(a1/11) * 11
             c8 = (a2 - a1) % 10
 
-            return checknum == c8
+            return checksum == c8
 
         # individuals
         if len(vat_number) == 9:
 
             # special cases
             if vat_number[0] == str('6'):
-                checknum = int(vat_number[8])
+                checksum = int(vat_number[8])
                 a1 = self.sum_weights(list(range(8, 1, -1)), vat_number[1:8])
                 if a1 % 11 == 0:
                     a2 = a1 + 11
@@ -78,7 +78,7 @@ class Validator(GenericValidator):
                     10: 9,
                     11: 8
                 }
-                return checknum == last_digit_mapping[d]
+                return checksum == last_digit_mapping[d]
             else:
                 # common individuals
                 if int(vat_number[:2])>53:

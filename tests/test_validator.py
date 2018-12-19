@@ -21,21 +21,6 @@ from pyVat.api import Validator
 
 class TestValidator(unittest.TestCase):
 
-    def test_ro(self):
-        validator = Validator('RO2785503')
-        self.assertTrue( validator.validate() )
-        self.assertEqual( validator.country_code, 'RO' )
-        self.assertEqual( validator.vat_number, '2785503' )
-        validator = Validator('2785503', 'RO')
-        self.assertTrue(validator.validate())
-
-        validator = Validator('ro 278  5503')
-        self.assertTrue(validator.validate())
-        self.assertEqual(validator.country_code, 'RO')
-
-        validator = Validator('RO2785500')
-        self.assertFalse(validator.validate())
-
     def test_at(self):
         validator = Validator('ATU10223006')
         self.assertTrue(validator.validate())
@@ -265,6 +250,22 @@ class TestValidator(unittest.TestCase):
         validator = Validator('GB434031494')
         self.assertTrue(validator.validate())
 
+    def test_hr(self):
+        validator = Validator('HR99999999999')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'HR')
+        validator = Validator('HR9999999999')
+        self.assertFalse(validator.validate())
+
+    def test_hu(self):
+        # format 1 - 5 chars
+        validator = Validator('HU21376414')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'HU')
+        validator = Validator('hu 10597190')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'HU')
+
 
     def test_ie(self):
         # old style format
@@ -286,7 +287,7 @@ class TestValidator(unittest.TestCase):
         self.assertFalse(validator.validate())
 
     def test_lt(self):
-        #juridical entities
+        # juridical entities
         validator = Validator('LT213179412')
         self.assertTrue(validator.validate())
         self.assertEqual(validator.country_code, 'LT')
@@ -297,6 +298,95 @@ class TestValidator(unittest.TestCase):
         validator = Validator('LT290061371314')
         self.assertTrue(validator.validate())
         validator = Validator('LT290061371324')
+        self.assertFalse(validator.validate())
+
+    def test_lu(self):
+        validator = Validator('LU10000356')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'LU')
+        validator = Validator('LU14516304')
+        self.assertTrue(validator.validate())
+        validator = Validator('LU10000355')
+        self.assertFalse(validator.validate())
+
+    def test_lv(self):
+        # juridical entities
+        validator = Validator('LV40003009497')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'LV')
+        validator = Validator('LV40003009498')
+        self.assertFalse(validator.validate())
+
+        # natural persons
+        validator = Validator('LV07091910933')
+        self.assertTrue(validator.validate())
+        validator = Validator('LV32091910933')
+        self.assertFalse(validator.validate())
+
+    def test_mt(self):
+        validator = Validator('MT15121333')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'MT')
+        validator = Validator('MT15121332')
+        self.assertFalse(validator.validate())
+
+    def test_nl(self):
+        validator = Validator('NL010000446B01')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'NL')
+        validator = Validator('NL000000446B01')
+        self.assertFalse(validator.validate())
+
+    def test_pl(self):
+        validator = Validator('PL5260001246')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'PL')
+        validator = Validator('PL5260001244')
+        self.assertFalse(validator.validate())
+
+    def test_pt(self):
+        validator = Validator('PT502757191')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'PT')
+        validator = Validator('PT502757190')
+        self.assertFalse(validator.validate())
+
+    def test_ro(self):
+        validator = Validator('RO2785503')
+        self.assertTrue( validator.validate() )
+        self.assertEqual( validator.country_code, 'RO' )
+        self.assertEqual( validator.vat_number, '2785503' )
+        validator = Validator('2785503', 'RO')
+        self.assertTrue(validator.validate())
+
+        validator = Validator('ro 99 908')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'RO')
+
+        validator = Validator('RO2785500')
+        self.assertFalse(validator.validate())
+
+    def test_se(self):
+        validator = Validator('SE556188840401')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'SE')
+        validator = Validator('SE556183840407')
+        self.assertFalse(validator.validate())
+
+    def test_si(self):
+        validator = Validator('SI15012557')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'SI')
+        validator = Validator('SI15012556')
+        self.assertFalse(validator.validate())
+
+    def test_sk(self):
+        validator = Validator('SK4030000007')
+        self.assertTrue(validator.validate())
+        self.assertEqual(validator.country_code, 'SK')
+        validator = Validator('SK5407062531')
+        self.assertFalse(validator.validate())
+        validator = Validator('SK0407062531')
         self.assertFalse(validator.validate())
 
 if __name__ == '__main__':

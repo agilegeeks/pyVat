@@ -40,7 +40,7 @@ class Validator(GenericValidator):
 
         # Legal entities
         if len(vat_number) == 9:
-            checknum = int(vat_number[8])
+            checksum = int(vat_number[8])
             if int(vat_number[7]) != 1:
                 return False
             r1 = self.sum_weights(list(range(1,9)), vat_number) % 11
@@ -55,19 +55,19 @@ class Validator(GenericValidator):
                     checkval = r2
         else:
             # Temporarily registered taxpayers
-            checknum = int(vat_number[11])
+            checksum = int(vat_number[11])
             if int(vat_number[10]) != 1:
                 return False
 
-            rng = list(range(1,10) + range(1,3))
+            rng = list(range(1,10)) + list(range(1,3))
             r1 = self.sum_weights(rng, vat_number) % 11
             if r1 != 10:
                 checkval = r1
             else:
-                rng = list(range(3, 10) + range(1,5))
+                rng = list(range(3, 10)) + list(range(1,5))
                 r2 = self.sum_weights(rng, vat_number) % 11
                 if r2 == 10:
                     checkval = 0
                 else:
                     checkval = r2
-        return checknum == checkval
+        return checksum == checkval

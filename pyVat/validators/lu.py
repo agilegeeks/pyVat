@@ -37,21 +37,7 @@ class Validator(GenericValidator):
             return False
 
         vat_number = str(vat_number)
-        checknum = int(vat_number[10])
+        checksum = int(vat_number[6:])
+        checkval = int(vat_number[:6]) % 89
+        return checksum == checkval
 
-        c8910 = int(vat_number[7:10])
-        if c8910 not in range(1, 102) and c8910 not in [120, 121, 999, 888]:
-            return False
-
-        s1 = 0
-        for i in range(0,9,2):
-            s1 = s1 + int(vat_number[i])
-
-        s2 = 0
-        for i in range(1,10,2):
-            n = int(vat_number[i])
-            s2 = s2 + int(n/5) + (2 * n) % 10
-
-        checkval = (10 - (s1 + s2) % 10) % 10
-
-        return checknum == checkval

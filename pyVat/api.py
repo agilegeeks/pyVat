@@ -24,39 +24,36 @@ import re
 import sys
 
 
-VAT_NUMBER_REGEXPS = {
-    'AT': re.compile(r'^U\d{8}$', re.IGNORECASE),
-    'BE': re.compile(r'^\d{9,10}$'),
-    'BG': re.compile(r'^\d{9,10}$'),
-    'CY': re.compile(r'^\d{8}[a-z]$', re.IGNORECASE),
-    'CZ': re.compile(r'^\d{8,10}$'),
-    'DE': re.compile(r'^\d{9}$'),
-    'DK': re.compile(r'^\d{8}$'),
-    'EE': re.compile(r'^\d{9}$'),
-    'ES': re.compile(r'^[\da-z]\d{7}[\da-z]$', re.IGNORECASE),
-    'FI': re.compile(r'^\d{8}$'),
-    'FR': re.compile(r'^[\da-z]{2}\d{9}$', re.IGNORECASE),
-    'GB': re.compile(r'^((\d{9})|(\d{12})|(GD\d{3})|(HA\d{3}))$',
-                     re.IGNORECASE),
-    'GR': re.compile(r'^\d{9}$'),
-    'HR': re.compile(r'^\d{11}$'),
-    'HU': re.compile(r'^\d{8}$'),
-    'IE': re.compile(r'^((\d{7}[a-z])|(\d[a-z]\d{5}[a-z])|(\d{6,7}[a-z]{2}))$',
-                     re.IGNORECASE),
-    'IT': re.compile(r'^\d{11}$'),
-    'LT': re.compile(r'^((\d{9})|(\d{12}))$'),
-    'LU': re.compile(r'^\d{8}$'),
-    'LV': re.compile(r'^\d{11}$'),
-    'MT': re.compile(r'^\d{8}$'),
-    'NL': re.compile(r'^\d{9}B\d{2,3}$', re.IGNORECASE),
-    'PL': re.compile(r'^\d{10}$'),
-    'PT': re.compile(r'^\d{9}$'),
-    'RO': re.compile(r'^\d{2,10}$'),
-    'SE': re.compile(r'^\d{12}$'),
-    'SI': re.compile(r'^\d{8}$'),
-    'SK': re.compile(r'^\d{10}$'),
-}
-
+EU_COUNTRIES = [
+    'AT',
+    'BE',
+    'BG',
+    'CY',
+    'CZ',
+    'DK',
+    'EE',
+    'FI',
+    'FR',
+    'DE',
+    'GR',
+    'HR',
+    'HU',
+    'IE',
+    'IT',
+    'LV',
+    'LT',
+    'LU',
+    'MT',
+    'NL',
+    'PL',
+    'PT',
+    'RO',
+    'SK',
+    'SI',
+    'ES',
+    'SE',
+    'GB'
+]
 def load_class(module_name, class_name):
     mod = __import__(module_name, fromlist=[class_name])
     klass = getattr(mod, class_name)
@@ -115,7 +112,7 @@ class Validator(object):
         if vat_country_code == 'EL':
             vat_country_code = 'GR'
 
-        if vat_country_code not in VAT_NUMBER_REGEXPS.keys():
+        if vat_country_code not in EU_COUNTRIES:
             raise VatValidationError('Invalid VAT country')
 
         if len(vat_number)>2:
