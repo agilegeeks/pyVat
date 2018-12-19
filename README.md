@@ -8,7 +8,7 @@ pyVat is a complete library that validates vat number formats in EU member count
 Python >= 2.7
 
 ## Installation
-    $ pip install pyvat-format-checker
+    $ pip install vat-format-checker
 
 ## Usage
 ```python
