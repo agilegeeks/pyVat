@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="vat-format-checker",
-    version="0.0.1",
+    version="0.0.2",
     author="Radu Boncea",
     author_email="radu.boncea@gmail.com",
     description="A library for checking on European VAT formats",
