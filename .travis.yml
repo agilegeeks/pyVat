@@ -1,0 +1,7 @@
+language: python
+matrix:
+  include:
+  - python: "2.7"
+  - python: "3.6"
+
+script: python -m unittest tests/test_validator.py
