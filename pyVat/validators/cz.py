@@ -114,6 +114,16 @@ class Validator(GenericValidator):
                     and monthval not in range(51, 63) and monthval not in range(71, 83):
                 return False
 
+            if monthval in range(21,33):
+                monthval = monthval - 20
+            elif monthval in range(51,63):
+                monthval = monthval - 50
+            elif monthval in range(71,83):
+                monthval = monthval - 70
+            else:
+                monthval
+            
+            
             year_prefix = str('19')
             if yearval<13:
                 year_prefix = str('20')
