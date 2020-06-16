@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="vat-format-checker",
-    version="0.0.2",
+    version="0.0.3",
     author="Radu Boncea",
     author_email="radu.boncea@gmail.com",
     description="A library for checking on European VAT formats",
@@ -18,7 +18,7 @@ setuptools.setup(
     },
     install_requires=[
     ],
-    python_requires='>=2.7',
+    python_requires='>=2.6',
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
@@ -26,7 +26,8 @@ setuptools.setup(
         "Intended Audience :: Developers",
         "Intended Audience :: Financial and Insurance Industry",
         "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 2.7",
+	"Programming Language :: Python :: 2.6",
+	"Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.0",
         "Programming Language :: Python :: 3.1",
         "Programming Language :: Python :: 3.2",
