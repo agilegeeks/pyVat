@@ -50,6 +50,7 @@ class Validator(GenericValidator):
 
         # Format 2
         c89 = int(vat_number[7:9])
+        c17 = int(vat_number[:7])
         r = self.sum_weights(list(range(8, 1, -1)), vat_number[:7]) + c89
         r1 = r % 97
         r2 = (r + 55) % 97
@@ -59,11 +60,11 @@ class Validator(GenericValidator):
             for rng in [range(100000, 1000000),
                             range(9490001, 9700001),
                             range(9990001, 10000000)]:
-                if r1 in rng:
+                if c17 in rng:
                     return False
 
         if r2 == 0:
-            if r1 in range(1, 1000001):
+            if c17 in range(1, 1000001):
                 return False
 
         if len(vat_number) == 12:

@@ -249,6 +249,11 @@ class TestValidator(unittest.TestCase):
         #format 2
         validator = Validator('GB434031494')
         self.assertTrue(validator.validate())
+        validator = Validator('GB263321723')
+        self.assertTrue(validator.validate())
+        validator = Validator('GB151699094')
+        self.assertTrue(validator.validate())
+
 
     def test_hr(self):
         validator = Validator('HR99999999999')
