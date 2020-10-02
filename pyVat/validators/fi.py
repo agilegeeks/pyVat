@@ -40,10 +40,9 @@ class Validator(GenericValidator):
         checksum = int(vat_number[7])
 
         r = 11 - self.sum_weights([7,9,10,5,8,4,2], vat_number) % 11
-        if r == 0:
+        if r == 10:
             return False
-        elif r == 11:
-            if checksum != 0:
-                return False
+        elif (r == 11 and checksum == 0) or checksum == r:
+            return True
         else:
-            return checksum == r
+            return False
